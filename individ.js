@@ -2,14 +2,16 @@
 /* eslint no-unused-vars: 0 */
 function Node(){
     this.radius = 5;
-    this.max_vel = 200;
+    this.max_vel = 100;
     this.x = random(this.radius, canvasSize - this.radius);
     this.y = random(this.radius, canvasSize - this.radius);
     this.xp = random(-this.max_vel, this.max_vel);
     this.yp = random(-this.max_vel, this.max_vel);
-    this.xpp = 0;
-    this.ypp = 0;
+    this.xpp = random(-5, 5);
+    this.ypp = random(-5, 5);
     
+    this.box_idx = [];
+
     this.susceptible = true;
     this.infected = false;
     this.cured = false;
@@ -39,13 +41,7 @@ function Node(){
         this.xp += this.xpp*time_step;
         this.yp += this.ypp*time_step;
         this.checkConstraints();
-        if(this.infected){
-            this.time_infected += time_step;
-            // print(this.time_infected)
-            if(this.time_infected >= time_to_heal){
-                this.cure();
-            }
-        }
+
         
         /*
         this.x = constrain(this.x, 0, width);
@@ -90,6 +86,16 @@ function Node(){
         }
         if (this.yp <= -this.max_vel){
             this.yp = -this.max_vel;
+        }
+    }
+
+    this.updateTimeInfected = function(){
+        if(this.infected){
+            this.time_infected += time_step;
+            // print(this.time_infected)
+            if(this.time_infected >= time_to_heal){
+                this.cure();
+            }
         }
     }
 }
